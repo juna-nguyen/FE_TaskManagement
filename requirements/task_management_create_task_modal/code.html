@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow - Create Task Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c3c0ff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "surface-variant": "#e4e1ee",
+                        "surface-container-highest": "#e4e1ee",
+                        "on-primary-container": "#dad7ff",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#f0ecf9",
+                        "on-primary": "#ffffff",
+                        "background": "#fcf8ff",
+                        "surface": "#fcf8ff",
+                        "surface-container-high": "#eae6f4",
+                        "primary-container": "#4f46e5",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface-variant": "#464555",
+                        "surface-dim": "#dcd8e5",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-surface": "#302f39",
+                        "surface-bright": "#fcf8ff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "tertiary": "#7e3000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#351000",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#dae2fd",
+                        "on-background": "#1b1b24",
+                        "on-tertiary-container": "#ffd2be",
+                        "inverse-on-surface": "#f3effc",
+                        "on-surface": "#1b1b24",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f5f2ff",
+                        "tertiary-fixed": "#ffdbcc",
+                        "primary": "#3525cd",
+                        "surface-tint": "#4d44e3",
+                        "inverse-primary": "#c3c0ff",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "tertiary-container": "#a44100",
+                        "on-primary-fixed": "#0f0069",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#5c647a",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c7c4d8",
+                        "outline": "#777587",
+                        "secondary": "#565e74"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "2.5rem",
+                        "unit": "4px",
+                        "container-max": "1440px",
+                        "xs": "0.25rem",
+                        "lg": "1.5rem",
+                        "md": "1rem",
+                        "sm": "0.5rem",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden">
+<!-- Mock Background Content (Dashboard List View) -->
+<div class="h-screen w-full flex flex-col blur-sm opacity-50 pointer-events-none">
+<!-- TopNavBar Mock -->
+<header class="flex justify-between items-center w-full px-lg h-14 sticky top-0 z-10 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">TaskFlow</span>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar Mock -->
+<nav class="hidden md:flex flex-col h-full w-64 py-md px-sm border-r border-outline-variant bg-white">
+<div class="mb-lg px-sm">
+<div class="font-headline-sm text-headline-sm font-black text-primary">ProTask</div>
+<div class="font-label-sm text-label-sm text-secondary mt-xs">Enterprise Workspace</div>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-sm px-md py-sm bg-primary-container text-on-primary-container font-semibold rounded-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span> My Tasks
+                    </div>
+</div>
+</nav>
+<!-- Main Content Mock -->
+<main class="flex-1 p-lg bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto">
+<h1 class="font-headline-xl text-headline-xl mb-lg">My Tasks</h1>
+<div class="space-y-sm">
+<div class="h-14 bg-white border border-outline-variant rounded flex items-center px-md">Task 1</div>
+<div class="h-14 bg-white border border-outline-variant rounded flex items-center px-md">Task 2</div>
+<div class="h-14 bg-white border border-outline-variant rounded flex items-center px-md">Task 3</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+<!-- Modal Overlay Backdrop -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-margin-mobile md:p-gutter transition-opacity duration-300">
+<!-- Modal Dialog -->
+<div aria-labelledby="modal-title" aria-modal="true" class="bg-surface-container-lowest w-full max-w-2xl rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.12),0_2px_4px_-1px_rgba(0,0,0,0.06)] border border-outline-variant flex flex-col max-h-[921px] transform transition-all duration-300 scale-100 opacity-100" role="dialog">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-lg py-md border-b border-outline-variant bg-white rounded-t-xl shrink-0">
+<h2 class="font-headline-lg text-headline-lg text-on-surface" id="modal-title">Create New Task</h2>
+<button class="text-on-surface-variant hover:bg-surface-container-high p-xs rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container/20" type="button">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Form) -->
+<div class="p-lg overflow-y-auto flex-1">
+<form class="space-y-lg" id="create-task-form">
+<!-- Title Input -->
+<div class="space-y-xs group">
+<label class="block font-label-sm text-label-sm text-on-surface" for="task-title">Title <span class="text-error">*</span></label>
+<input class="w-full bg-white border border-slate-200 text-on-surface rounded font-body-md text-body-md px-md py-sm placeholder:text-outline focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-shadow" id="task-title" name="title" placeholder="e.g., Q3 Marketing Report" required="" type="text"/>
+<!-- Validation Message (Hidden by default, can be toggled via JS) -->
+<p class="hidden font-body-sm text-body-sm text-error mt-1 flex items-center gap-1" id="title-error">
+<span class="material-symbols-outlined text-[16px]">error</span> Title is required.
+                        </p>
+</div>
+<!-- Description Textarea -->
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-surface" for="task-desc">Description</label>
+<textarea class="w-full bg-white border border-slate-200 text-on-surface rounded font-body-md text-body-md px-md py-sm placeholder:text-outline focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-shadow resize-y min-h-[100px]" id="task-desc" name="description" placeholder="Add detailed context..." rows="4"></textarea>
+</div>
+<!-- Layout for Dropdowns and Date -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Status Dropdown -->
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-surface" for="task-status">Status</label>
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-slate-200 text-on-surface rounded font-body-md text-body-md pl-md pr-xl py-sm focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-shadow cursor-pointer" id="task-status" name="status">
+<option value="TODO">To Do</option>
+<option value="IN_PROGRESS">In Progress</option>
+<option value="DONE">Done</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-sm text-on-surface-variant">
+<span class="material-symbols-outlined">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Due Date Picker -->
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-surface" for="task-due">Due Date</label>
+<div class="relative">
+<input class="w-full bg-white border border-slate-200 text-on-surface rounded font-body-md text-body-md pl-md pr-sm py-sm focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-shadow cursor-pointer" id="task-due" name="dueDate" type="date"/>
+</div>
+</div>
+</div>
+<!-- Priority Segmented Control -->
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-surface">Priority</label>
+<div aria-labelledby="priority-label" class="flex bg-surface-container-high p-unit rounded border border-outline-variant/50 w-full sm:w-auto overflow-hidden" role="radiogroup">
+<!-- Low -->
+<label class="flex-1 sm:flex-none relative cursor-pointer group">
+<input class="peer sr-only" name="priority" type="radio" value="LOW"/>
+<div class="px-md py-sm text-center font-label-caps text-label-caps text-on-surface-variant rounded transition-colors peer-checked:bg-white peer-checked:text-on-surface peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-primary-container/20 flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">remove</span> Low
+                                </div>
+</label>
+<!-- Medium (Default) -->
+<label class="flex-1 sm:flex-none relative cursor-pointer group">
+<input checked="" class="peer sr-only" name="priority" type="radio" value="MEDIUM"/>
+<div class="px-md py-sm text-center font-label-caps text-label-caps text-on-surface-variant rounded transition-colors peer-checked:bg-white peer-checked:text-on-surface peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-primary-container/20 flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">drag_handle</span> Medium
+                                </div>
+</label>
+<!-- High -->
+<label class="flex-1 sm:flex-none relative cursor-pointer group">
+<input class="peer sr-only" name="priority" type="radio" value="HIGH"/>
+<div class="px-md py-sm text-center font-label-caps text-label-caps text-on-surface-variant rounded transition-colors peer-checked:bg-white peer-checked:text-on-surface peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-primary-container/20 flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">keyboard_double_arrow_up</span> High
+                                </div>
+</label>
+</div>
+</div>
+</form>
+</div>
+<!-- Modal Footer -->
+<div class="px-lg py-md border-t border-outline-variant bg-surface-bright flex justify-end gap-md rounded-b-xl shrink-0">
+<button class="px-md py-sm font-label-sm text-label-sm font-medium text-on-surface bg-white border border-slate-200 rounded hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-colors" type="button">
+                    Cancel
+                </button>
+<button class="px-md py-sm font-label-sm text-label-sm font-medium text-white bg-[#4f46e5] rounded border border-transparent hover:bg-[#3525cd] focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-colors shadow-sm" form="create-task-form" type="submit">
+                    Save Task
+                </button>
+</div>
+</div>
+</div>
+<!-- Simple validation interaction script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('create-task-form');
+            const titleInput = document.getElementById('task-title');
+            const titleError = document.getElementById('title-error');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let isValid = true;
+
+                if (!titleInput.value.trim()) {
+                    isValid = false;
+                    titleError.classList.remove('hidden');
+                    titleInput.classList.add('border-error', 'focus:border-error', 'focus:ring-error/20');
+                    titleInput.classList.remove('focus:border-primary-container', 'focus:ring-primary-container/20', 'border-slate-200');
+                } else {
+                    titleError.classList.add('hidden');
+                    titleInput.classList.remove('border-error', 'focus:border-error', 'focus:ring-error/20');
+                    titleInput.classList.add('focus:border-primary-container', 'focus:ring-primary-container/20', 'border-slate-200');
+                }
+
+                if (isValid) {
+                    // Simulate save success
+                    console.log('Task saved', new FormData(form));
+                    // Ideally close modal here
+                }
+            });
+
+            titleInput.addEventListener('input', () => {
+                if (titleInput.value.trim()) {
+                    titleError.classList.add('hidden');
+                    titleInput.classList.remove('border-error', 'focus:border-error', 'focus:ring-error/20');
+                    titleInput.classList.add('focus:border-primary-container', 'focus:ring-primary-container/20', 'border-slate-200');
+                }
+            });
+        });
+    </script>
+</body></html>

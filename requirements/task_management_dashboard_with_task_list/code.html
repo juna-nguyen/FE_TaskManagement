@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#565e74",
+                      "surface-container-low": "#f5f2ff",
+                      "tertiary-fixed": "#ffdbcc",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "on-secondary-fixed": "#131b2e",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#351000",
+                      "on-primary-fixed": "#0f0069",
+                      "surface-container-high": "#eae6f4",
+                      "tertiary-fixed-dim": "#ffb695",
+                      "inverse-on-surface": "#f3effc",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#5c647a",
+                      "surface-container-highest": "#e4e1ee",
+                      "primary-container": "#4f46e5",
+                      "on-surface-variant": "#464555",
+                      "on-primary-container": "#dad7ff",
+                      "primary": "#3525cd",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "surface-variant": "#e4e1ee",
+                      "outline-variant": "#c7c4d8",
+                      "tertiary-container": "#a44100",
+                      "primary-fixed-dim": "#c3c0ff",
+                      "outline": "#777587",
+                      "secondary-fixed": "#dae2fd",
+                      "secondary-container": "#dae2fd",
+                      "inverse-primary": "#c3c0ff",
+                      "inverse-surface": "#302f39",
+                      "background": "#fcf8ff",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#f0ecf9",
+                      "on-tertiary-container": "#ffd2be",
+                      "surface-bright": "#fcf8ff",
+                      "surface-dim": "#dcd8e5",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#4d44e3",
+                      "on-secondary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#7b2f00",
+                      "on-error": "#ffffff",
+                      "surface": "#fcf8ff",
+                      "on-primary-fixed-variant": "#3323cc",
+                      "on-surface": "#1b1b24",
+                      "tertiary": "#7e3000",
+                      "primary-fixed": "#e2dfff",
+                      "on-background": "#1b1b24"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "md": "1rem",
+                      "container-max": "1440px",
+                      "lg": "1.5rem",
+                      "sm": "0.5rem",
+                      "gutter": "24px",
+                      "xl": "2.5rem",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "xs": "0.25rem"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Base styles from style guidance */
+        body {
+            background-color: #F9FAFB;
+        }
+        .level-1-surface {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+        }
+        .level-2-hover:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+            transform: translateY(-1px);
+        }
+        /* Custom chart styling */
+        .bar-chart-bar { background-color: #3525cd; }
+        .pie-chart-slice-1 { background-color: #3525cd; }
+        .pie-chart-slice-2 { background-color: #4f46e5; }
+        .pie-chart-slice-3 { background-color: #c3c0ff; }
+        
+        /* Specific status colors */
+        .status-completed { border-left-color: #10b981; }
+        .status-progress { border-left-color: #f59e0b; }
+        .status-overdue { border-left-color: #ef4444; }
+    </style>
+</head>
+<body class="font-body-md text-on-background bg-background h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen fixed left-0 top-0 py-md px-sm border-r border-outline-variant bg-white dark:bg-surface-container-lowest w-64 z-40 transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-3 px-3 mb-8">
+<div class="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold">
+<span class="material-symbols-outlined" style="font-size: 20px;">task_alt</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-black text-primary dark:text-primary-fixed">ProTask</h1>
+<p class="font-label-sm text-label-sm text-secondary">Enterprise Workspace</p>
+</div>
+</div>
+<button class="mb-6 mx-2 bg-primary text-white font-label-sm text-label-sm py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-container-high transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+            New Project
+        </button>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-semibold rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-sm text-body-sm">My Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">folder</span>
+<span class="font-body-sm text-body-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-1 border-t border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-sm text-body-sm">Help</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-sm text-body-sm">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col h-screen overflow-y-auto">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg h-14 sticky top-0 z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+<div class="flex items-center md:hidden">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">ProTask</span>
+</div>
+<div class="hidden md:flex items-center bg-white border border-outline-variant rounded-md px-3 py-1.5 focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-20 transition-all w-96">
+<span class="material-symbols-outlined text-secondary mr-2" style="font-size: 18px;">search</span>
+<input class="bg-transparent border-none outline-none w-full font-body-sm text-body-sm text-on-surface placeholder:text-outline p-0 focus:ring-0" placeholder="Search tasks, projects, or people..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex bg-primary text-white font-label-sm text-label-sm py-1.5 px-4 rounded-lg hover:bg-primary-container-high transition-colors items-center gap-1">
+                    Create Task
+                </button>
+<button class="text-on-surface-variant hover:bg-surface-container transition-colors p-2 rounded-full cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate worker in a brightly lit modern office space. The person is smiling slightly, facing the camera. High quality, crisp lighting, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-ZopZQrb-wmJyAUhxgnfOh0Bja97VDctJTFzqT0Zul6TOT15mxQb_3CB5_EASRkZbuRyLjJs4RoWAMGU6a-xv_W0-i_N8Mi4LFTvicMTnErQM-Okgg_oSPoDkQ5vS9OIk6zceL3ZTciLlzTPWQoTAwqdWZ3ODU8m_hwj5LAhUyVkpoFKNAlWuuElTJhKKxUcGyLW92RW4yOBX-vIrNZoCydeXm1BhRPr0w6aCpLdi2hBpMjgTYpMb"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-lg lg:p-xl max-w-[container-max] mx-auto w-full flex flex-col gap-lg">
+<div class="flex justify-between items-end mb-2">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Here's what's happening with your projects today.</p>
+</div>
+<div class="hidden md:flex gap-2">
+<button class="px-3 py-1.5 border border-outline-variant rounded-md font-label-sm text-label-sm text-on-surface bg-white hover:bg-surface-container-low transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span>
+                        This Week
+                    </button>
+</div>
+</div>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric Card 1 -->
+<div class="level-1-surface rounded-xl p-4 flex flex-col justify-between h-32 level-2-hover transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Total Tasks</span>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 18px;">list_alt</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface">142</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1"><span class="text-[#10b981] font-medium">+12%</span> from last week</div>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="level-1-surface rounded-xl p-4 flex flex-col justify-between h-32 level-2-hover transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Completed</span>
+<div class="w-8 h-8 rounded-full bg-[#10b981]/10 flex items-center justify-center text-[#10b981]">
+<span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface">87</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Overall completion rate</div>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="level-1-surface rounded-xl p-4 flex flex-col justify-between h-32 level-2-hover transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">In Progress</span>
+<div class="w-8 h-8 rounded-full bg-[#f59e0b]/10 flex items-center justify-center text-[#f59e0b]">
+<span class="material-symbols-outlined" style="font-size: 18px;">pending</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface">45</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Across 4 active projects</div>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="level-1-surface rounded-xl p-4 flex flex-col justify-between h-32 level-2-hover transition-all cursor-pointer border-l-[3px] status-overdue">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overdue</span>
+<div class="w-8 h-8 rounded-full bg-[#ef4444]/10 flex items-center justify-center text-[#ef4444]">
+<span class="material-symbols-outlined" style="font-size: 18px;">warning</span>
+</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl text-on-surface">10</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1"><span class="text-[#ef4444] font-medium">Requires attention</span></div>
+</div>
+</div>
+</div>
+<!-- Layout: Chart + Searchable Task List -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg h-auto lg:h-[400px]">
+<!-- Status Distribution Donut Chart -->
+<div class="lg:col-span-1 level-1-surface rounded-xl p-5 flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Status Distribution</h3>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
+</button>
+</div>
+<div class="flex-1 flex items-center justify-center relative my-4">
+<!-- CSS Pie Chart representation -->
+<div class="w-48 h-48 rounded-full relative" style="background: conic-gradient(#10b981 0% 30%, #3525cd 30% 80%, #f59e0b 80% 100%);">
+<!-- Inner circle for donut effect -->
+<div class="absolute inset-0 m-auto w-32 h-32 bg-white rounded-full flex flex-col items-center justify-center">
+<span class="font-headline-xl text-headline-xl text-on-surface">142</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">Total Tasks</span>
+</div>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-[#10b981]"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Done</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">30%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-primary"></div>
+<span class="font-body-sm text-body-sm text-on-surface">In Progress</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">50%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-[#f59e0b]"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Todo</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">20%</span>
+</div>
+</div>
+</div>
+<!-- Searchable Task List -->
+<div class="lg:col-span-2 level-1-surface rounded-xl p-5 flex flex-col h-full">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Tasks</h3>
+<div class="flex items-center border border-outline-variant rounded-md px-3 py-1.5 focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-20 transition-all w-full sm:w-64">
+<span class="material-symbols-outlined text-secondary mr-2" style="font-size: 18px;">search</span>
+<input class="bg-transparent border-none outline-none w-full font-body-sm text-body-sm text-on-surface placeholder:text-outline p-0 focus:ring-0" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-x-auto overflow-y-auto pr-2">
+<table class="w-full text-left border-collapse min-w-[600px]">
+<thead>
+<tr class="border-b border-outline-variant text-secondary font-label-sm text-label-sm">
+<th class="py-3 px-3 font-medium">Task</th>
+<th class="py-3 px-3 font-medium">Status</th>
+<th class="py-3 px-3 font-medium">Priority</th>
+<th class="py-3 px-3 font-medium">Due Date</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-3 font-medium">Update Q3 Financials</td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] font-label-sm text-label-sm">Done</span></td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">Medium</span></td>
+<td class="py-3 px-3 text-secondary">Today</td>
+</tr>
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-3 font-medium">Design System Revamp</td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">In Progress</span></td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-[#f59e0b]/10 text-[#f59e0b] font-label-sm text-label-sm">High</span></td>
+<td class="py-3 px-3 text-secondary">Tomorrow</td>
+</tr>
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-3 font-medium">Client Presentation</td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">Todo</span></td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-[#ef4444]/10 text-[#ef4444] font-label-sm text-label-sm">Urgent</span></td>
+<td class="py-3 px-3 text-[#ef4444]">Yesterday</td>
+</tr>
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-3 font-medium">API Integration</td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">In Progress</span></td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-[#f59e0b]/10 text-[#f59e0b] font-label-sm text-label-sm">High</span></td>
+<td class="py-3 px-3 text-secondary">Oct 24</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-3 font-medium">Weekly Team Sync</td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] font-label-sm text-label-sm">Done</span></td>
+<td class="py-3 px-3"><span class="px-2.5 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">Low</span></td>
+<td class="py-3 px-3 text-secondary">Oct 20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
